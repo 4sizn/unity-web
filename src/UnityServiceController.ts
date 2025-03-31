@@ -29,7 +29,7 @@ export class UnityServiceController {
     if (!this._canvas) {
       throw new Error("Canvas not found");
     }
-
+    console.log(this.constructor.name, "readyUnityInstance");
     this._canvas.style.width = "100%";
     this._canvas.style.height = "100%";
   }
@@ -37,19 +37,30 @@ export class UnityServiceController {
   public async createUnityInstance() {
     try {
       this._canvas = createCanvas();
-      this._unityInstance = await window.createUnityInstance(
+      this._unityInstance = await this._createUnityInstance(
         this._canvas,
         UnityServiceController.config
       );
+      console.log(this.constructor.name, "createUnityInstance");
       this._readyUnityInstance();
     } catch (error) {
       console.error(error);
     }
   }
 
+  private async _createUnityInstance(
+    ...args: Parameters<typeof window.createUnityInstance>
+  ): Promise<UnityInstance> {
+    if (this._unityInstance) {
+      return this._unityInstance;
+    }
+    return window.createUnityInstance(...args);
+  }
+
   public async unityDestroy() {
     try {
       await this._unityInstance?.Quit();
+      this._unityInstance = null;
       removeCanvas();
     } catch (error) {
       console.error(error);
