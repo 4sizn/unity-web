@@ -1,6 +1,11 @@
 export const UNITY_CANVAS_ID = "unity-canvas";
 
 export async function loadScript(src: string) {
+  // 이미 존재하는 스크립트인지 확인
+  if (document.querySelector(`script[src="${src}"]`)) {
+    return Promise.resolve(true);
+  }
+
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.src = src;

@@ -9,7 +9,7 @@ const button = document.createElement("button");
 button.textContent = "Init Unity Instance";
 button.addEventListener("click", async () => {
   await unityServiceController.init();
-  unityServiceController.createUnityInstance();
+  // unityServiceController.createUnityInstance();
 });
 document.body.appendChild(button);
 
