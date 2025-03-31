@@ -1,23 +1,22 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import { setupCounter } from './counter'
+import { UnityServiceController } from "./UnityServiceController";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+console.log("Hello World");
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+const unityServiceController = UnityServiceController.getInstance();
+
+//add button to init unity instance
+const button = document.createElement("button");
+button.textContent = "Init Unity Instance";
+button.addEventListener("click", async () => {
+  await unityServiceController.init();
+  unityServiceController.createUnityInstance();
+});
+document.body.appendChild(button);
+
+//add button to destroy unity instance
+const destroyButton = document.createElement("button");
+destroyButton.textContent = "Destroy Unity Instance";
+destroyButton.addEventListener("click", async () => {
+  unityServiceController.unityDestroy();
+});
+document.body.appendChild(destroyButton);
